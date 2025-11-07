@@ -1,0 +1,357 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAP - Mapeo Aéreo de Propiedades</title>
+    <link href="logo png.png" rel="stylesheet">
+    <style>
+        /* === RESET === */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* === COLORES PRINCIPALES === */
+        :root {
+            --dorado: hsl(48, 27%, 72%);
+            --negro: #0b0b0b;
+            --gris: #1c1c1c;
+            --blanco: #f5f5f5;
+        }
+
+        body {
+            font-family: "Poppins", sans-serif;
+            background-color: var(--negro);
+            color: var(--blanco);
+            scroll-behavior: smooth;
+        }
+
+        /* === HEADER === */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            padding: 15px 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(212,175,55,0.3);
+        }
+
+        .logo-titulo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-titulo img {
+            height: 50px;
+        }
+
+        .logo-titulo h1 {
+            color: var(--dorado);
+            font-size: 1.6em;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        nav a {
+            color: var(--blanco);
+            text-decoration: none;
+            margin-left: 30px;
+            font-weight: 400;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--dorado);
+        }
+
+        /* === HERO === */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('dji_fly_20250704_200934_0159_1751823347360_photo.jpg') no-repeat center/cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .hero h2 {
+            font-size: 3em;
+            color: var(--dorado);
+            margin-bottom: 15px;
+            animation: fadeInDown 3.2s ease;
+        }
+
+        .hero p {
+            max-width: 600px;
+            font-size: 1.2em;
+            color: #ddd;
+            animation: fadeInUp 3.5s ease;
+        }
+
+        /* === CATÁLOGO === */
+        .catalogo {
+            background-color: var(--gris);
+            padding: 100px 50px;
+            text-align: center;
+        }
+
+        .catalogo h2 {
+            color: var(--dorado);
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        .catalogo p {
+            color: #ccc;
+            font-size: 1.1em;
+            margin-bottom: 50px;
+        }
+
+        .visores {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px;
+        }
+
+        .visor-contenedor {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .visor-contenedor h3 {
+            color: var(--dorado);
+            font-size: 1.2em;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .visor {
+            width: 380px;
+            height: 260px;
+            border: 1px solid var(--dorado);
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: #000;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .visor:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px rgba(212,175,55,0.3);
+        }
+
+        iframe, video {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+
+        .visor img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+            background-color: #000;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .visor img:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px rgba(212,175,55,0.3);
+        }
+
+        /* === FOOTER === */
+        footer {
+            background: #000;
+            color: #aaa;
+            text-align: center;
+            padding: 25px 20px;
+            font-size: 0.9em;
+            border-top: 1px solid rgba(212,175,55,0.2);
+        }
+
+        footer .redes {
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        footer .redes a {
+            display: inline-block;
+            transition: transform 0.3s;
+        }
+
+        footer .redes a:hover {
+            transform: scale(1.2);
+        }
+
+        .icono-redes {
+            width: 30px;
+            height: 30px;
+            filter: invert(90%) sepia(10%) saturate(500%) hue-rotate(30deg);
+        }
+
+        /* === ANIMACIONES === */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                padding: 15px 20px;
+            }
+
+            .hero h2 {
+                font-size: 2.3em;
+            }
+
+            .catalogo {
+                padding: 80px 20px;
+            }
+
+            .visor {
+                width: 100%;
+                max-width: 380px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="logo-titulo">
+            <img src="logo mio_files/lg.jpg" alt="MAP">
+            <h1>Mapeo Aéreo de Propiedades</h1>
+        </div>
+        <nav>
+            <a href="#inicio">Inicio</a>
+            <a href="#catalogo">Catálogo</a>
+            <a href="#contacto">Contacto</a>
+        </nav>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero" id="inicio">
+        <h2>La mejor perspectiva para vender tu propiedad</h2>
+        <p>Lleva a tus clientes a conocer tu propiedad sin salir de casa u oficina con tours 360° y videos publicitarios.</p>
+    </section>
+
+    <!-- CATÁLOGO -->
+    <section class="catalogo" id="catalogo">
+        <h2>Catálogo de Trabajos</h2>
+        <p>Explora mis trabajos de recorridos virtuales 360° y videos publicitarios</p>
+
+        <div class="visores">
+            <!-- Visor 1 -->
+            <div class="visor-contenedor">
+                <h3>Tour Virtual 360°</h3>
+                <div class="visor">
+                    <iframe src="https://tour.panoee.net/6907927177e77cef0435b4a5" allowfullscreen title="Tour virtual 360° de propiedad"></iframe>
+                </div>
+            </div>
+
+            <!-- Visor 2 -->
+            <div class="visor-contenedor">
+                <h3>Video Publicitario 1</h3>
+                <div class="visor">
+                    <video controls autoplay muted loop poster="miniatura.png">
+                        <source src="1ro.5.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+
+            <!-- Visor 3 -->
+            <div class="visor-contenedor">
+                <h3>Video Publicitario 2</h3>
+                <div class="visor">
+                    <video controls autoplay muted loop poster="imagenes/preview-video.jpg">
+                        <source src="13_4.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+
+            <!-- Visor 4 -->
+            <div class="visor-contenedor">
+                <h3>Video Publicitario 3</h3>
+                <div class="visor">
+                    <video controls autoplay muted loop poster="miniatura_nueva1.png">
+                        <source src="compose_video_1710367056690.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+
+            <!-- Visor 5 -->
+            <div class="visor-contenedor">
+                <h3>Video Publicitario 4</h3>
+                <div class="visor">
+                    <video controls autoplay muted loop poster="miniatura_nueva2.png">
+                        <source src="Phone Link/compose_video_1759191019376.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+
+            <!-- Visor 6 -->
+            <div class="visor-contenedor">
+                <h3>Foto Aérea 1</h3>
+                <div class="visor">
+                    <img src="dji_fly_20250909_223434_0289_1758000760280_photo.jpg" alt="Foto 1 de propiedad">
+                </div>
+            </div>
+
+            <!-- Visor 7 -->
+            <div class="visor-contenedor">
+                <h3>Foto Aérea 2</h3>
+                <div class="visor">
+                    <img src="dji_fly_20240422_062820_431_1713792513224_photo_optimized.jpg" alt="Foto 2 de propiedad">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+
+<footer id="contacto">
+    <p>© 2025 Mapeo Aéreo de Propiedades · Angel Santiago Parada Yañez.</p>
+    <div class="redes">
+        <a href="https://www.facebook.com/AngelSantiago21" target="_blank" title="Facebook">
+            <img src="iconos/facebook.svg" alt="Facebook" class="icono-redes">
+        </a>
+        <a href="https://www.instagram.com/angel_santiago21/" target="_blank" title="Instagram">
+            <img src="iconos/instagram.svg" alt="Instagram" class="icono-redes">
+        </a>
+        <a href="https://www.tiktok.com/@map.producciones" target="_blank" title="TikTok">
+            <img src="iconos/tiktok.svg" alt="TikTok" class="icono-redes">
+        </a>
+        <a href="https://wa.me/3114862506?text=Hola,%20me%20interesan%20tus%20servicios." target="_blank" title="WhatsApp">
+            <img src="iconos/whatsapp.svg" alt="WhatsApp" class="icono-redes">
+        </a>
+    </div>
+</footer>
+
+
+</body>
+</html>
